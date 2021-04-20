@@ -1,0 +1,24 @@
+vpc:
+  id: vpc-29354341
+elb:
+  Name: myelb
+  Subnets:
+  - subnet-4e314927
+  - subnet-6bff3427
+  SecurityGroups:
+  - sg-0022176bcc2307493
+  Scheme: internet-facing
+  Type: application
+  IpAddressType: ipv4
+target_group:
+  Name: mytarget
+  Protocol: HTTP
+  Port: 80
+  VpcId: vpc-29354341
+  HealthCheckProtocol: HTTP
+  TargetType: ip
+listener:
+  Protocol: HTTP
+  Port: 80
+  DefaultActions:
+  - Type: forward

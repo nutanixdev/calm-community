@@ -1,0 +1,18 @@
+# AWS with Calm
+
+## Authentication
+
+```python
+import boto3
+
+access_key = '@@{cred_aws.username}@@'
+secret_key = '@@{cred_aws.secret}@@'
+aws_region = '@@{aws_region_id}@@'
+
+# Authentication
+session = boto3.Session(
+    aws_access_key_id=access_key,
+    aws_secret_access_key=secret_key,
+    region_name=aws_region
+)
+```

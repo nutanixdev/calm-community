@@ -1,0 +1,7 @@
+rds:
+  DBInstanceIdentifier: myrds
+  DBInstanceClass: db.t2.micro
+  Engine: postgres
+  MasterUsername: postgres
+  MasterUserPassword: postgres
+  AllocatedStorage: 20
