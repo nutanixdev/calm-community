@@ -1,0 +1,9 @@
+iam:
+  RoleName: CalmBasicLambdaRole
+lambda:
+  FunctionName: mydemofunction
+  Runtime: python3.8
+  Handler: lambda_function.lambda_handler
+  Code:
+    S3Bucket: jg-calm
+    S3Key: lambda_function.py.zip

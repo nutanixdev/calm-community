@@ -1,6 +1,6 @@
 # AWS with Calm
 
-## Authentication
+## Authentication & Client
 
 ```python
 import boto3
@@ -15,4 +15,6 @@ session = boto3.Session(
     aws_secret_access_key=secret_key,
     region_name=aws_region
 )
+
+client = session.client('rds') # i.e. RDS client, replace rds with other AWS services
 ```
