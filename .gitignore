@@ -127,3 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Calm
+**/variables.py
+**/.calm
+**/.local
+**/blueprint.json
+
+# OS
+.DS_Store
