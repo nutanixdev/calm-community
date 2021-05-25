@@ -1,0 +1,347 @@
+{
+    "status": {},
+    "contains_secrets": false,
+    "product_version": "3.2.2",
+    "spec": {
+        "description": "",
+        "resources": {
+            "endpoints_information": [],
+            "endpoint_definition_list": [],
+            "credential_definition_list": [
+                {
+                    "username": "aws_access_key_for_this_sample",
+                    "description": "",
+                    "type": "PASSWORD",
+                    "secret": {
+                        "attrs": {
+                            "is_secret_modified": false,
+                            "secret_reference": {}
+                        }
+                    },
+                    "name": "AWS",
+                    "editables": {
+                        "username": true,
+                        "secret": true
+                    }
+                },
+                {
+                    "username": "s3_access_key_for_tfstate_backend",
+                    "description": "",
+                    "type": "PASSWORD",
+                    "secret": {
+                        "attrs": {
+                            "is_secret_modified": false,
+                            "secret_reference": {}
+                        }
+                    },
+                    "name": "OBJECTS",
+                    "editables": {
+                        "username": true,
+                        "secret": true
+                    }
+                }
+            ],
+            "runbook": {
+                "task_definition_list": [
+                    {
+                        "retries": "0",
+                        "description": "",
+                        "child_tasks_local_reference_list": [
+                            {
+                                "kind": "app_task",
+                                "name": "Dummy"
+                            },
+                            {
+                                "kind": "app_task",
+                                "name": "GIT_CLONE"
+                            },
+                            {
+                                "kind": "app_task",
+                                "name": "TF_CREDS"
+                            },
+                            {
+                                "kind": "app_task",
+                                "name": "TF_INIT"
+                            },
+                            {
+                                "kind": "app_task",
+                                "name": "TF_PLAN"
+                            }
+                        ],
+                        "name": "17c0db7e_dag",
+                        "attrs": {
+                            "edges": [
+                                {
+                                    "from_task_reference": {
+                                        "kind": "app_task",
+                                        "name": "Dummy"
+                                    },
+                                    "edge_type": "user_defined",
+                                    "type": "",
+                                    "to_task_reference": {
+                                        "kind": "app_task",
+                                        "name": "GIT_CLONE"
+                                    }
+                                },
+                                {
+                                    "from_task_reference": {
+                                        "kind": "app_task",
+                                        "name": "TF_INIT"
+                                    },
+                                    "edge_type": "user_defined",
+                                    "type": "",
+                                    "to_task_reference": {
+                                        "kind": "app_task",
+                                        "name": "TF_PLAN"
+                                    }
+                                },
+                                {
+                                    "from_task_reference": {
+                                        "kind": "app_task",
+                                        "name": "GIT_CLONE"
+                                    },
+                                    "edge_type": "user_defined",
+                                    "type": "",
+                                    "to_task_reference": {
+                                        "kind": "app_task",
+                                        "name": "TF_CREDS"
+                                    }
+                                },
+                                {
+                                    "from_task_reference": {
+                                        "kind": "app_task",
+                                        "name": "TF_CREDS"
+                                    },
+                                    "edge_type": "user_defined",
+                                    "type": "",
+                                    "to_task_reference": {
+                                        "kind": "app_task",
+                                        "name": "TF_INIT"
+                                    }
+                                }
+                            ],
+                            "type": ""
+                        },
+                        "timeout_secs": "0",
+                        "type": "DAG",
+                        "variable_list": []
+                    },
+                    {
+                        "retries": "0",
+                        "description": "",
+                        "child_tasks_local_reference_list": [],
+                        "name": "Dummy",
+                        "attrs": {
+                            "type": "",
+                            "interval_secs": 1
+                        },
+                        "timeout_secs": "0",
+                        "type": "DELAY",
+                        "variable_list": []
+                    },
+                    {
+                        "retries": "0",
+                        "description": "",
+                        "child_tasks_local_reference_list": [],
+                        "name": "GIT_CLONE",
+                        "attrs": {
+                            "script": "rm -fR ~\/calm\ngit clone @@{GIT_REPO}@@",
+                            "type": "",
+                            "command_line_args": "",
+                            "exit_status": [],
+                            "script_type": "sh"
+                        },
+                        "timeout_secs": "0",
+                        "type": "EXEC",
+                        "variable_list": []
+                    },
+                    {
+                        "retries": "0",
+                        "description": "",
+                        "child_tasks_local_reference_list": [],
+                        "name": "TF_CREDS",
+                        "attrs": {
+                            "script": "cd ~\/calm\/demo\/terraform\/\n\necho \"\n[default]\naws_access_key_id = @@{AWS.username}@@\naws_secret_access_key = @@{AWS.secret}@@\n\n[objects]\naws_access_key_id = @@{OBJECTS.username}@@\naws_secret_access_key = @@{OBJECTS.secret}@@\n\" > .credentials",
+                            "type": "",
+                            "command_line_args": "",
+                            "exit_status": [],
+                            "script_type": "sh"
+                        },
+                        "timeout_secs": "0",
+                        "type": "EXEC",
+                        "variable_list": []
+                    },
+                    {
+                        "retries": "0",
+                        "description": "",
+                        "child_tasks_local_reference_list": [],
+                        "name": "TF_INIT",
+                        "attrs": {
+                            "script": "cd ~\/calm\/demo\/terraform\/\n\nterraform init",
+                            "type": "",
+                            "command_line_args": "",
+                            "exit_status": [],
+                            "script_type": "sh"
+                        },
+                        "timeout_secs": "0",
+                        "type": "EXEC",
+                        "variable_list": []
+                    },
+                    {
+                        "retries": "0",
+                        "description": "",
+                        "child_tasks_local_reference_list": [],
+                        "name": "TF_PLAN",
+                        "attrs": {
+                            "failure_child_reference": {
+                                "kind": "app_task",
+                                "name": "800648b8_FAILURE_META"
+                            },
+                            "exit_status": [],
+                            "script": "export AWS_SHARED_CREDENTIALS_FILE=.credentials\n\ncd ~\/calm\/demo\/terraform\/\n\nterraform plan -detailed-exitcode\n\nif [ \"$?\" -eq \"2\" ]; then\n\texit 0\nelse\n\texit 1\nfi",
+                            "success_child_reference": {
+                                "kind": "app_task",
+                                "name": "bbedc18f_SUCCESS_META"
+                            },
+                            "type": "",
+                            "command_line_args": "",
+                            "script_type": "sh"
+                        },
+                        "timeout_secs": "0",
+                        "type": "DECISION",
+                        "variable_list": []
+                    },
+                    {
+                        "retries": "0",
+                        "description": "",
+                        "child_tasks_local_reference_list": [
+                            {
+                                "kind": "app_task",
+                                "name": "TF_APPLY"
+                            }
+                        ],
+                        "name": "bbedc18f_SUCCESS_META",
+                        "attrs": {
+                            "type": ""
+                        },
+                        "timeout_secs": "0",
+                        "type": "META",
+                        "variable_list": []
+                    },
+                    {
+                        "retries": "0",
+                        "description": "",
+                        "child_tasks_local_reference_list": [],
+                        "name": "TF_APPLY",
+                        "attrs": {
+                            "script": "echo $AWS_SHARED_CREDENTIALS_FILE\n\ncd ~\/calm\/demo\/terraform\/\n\nterraform apply -auto-approve\n\nrm -fR ~\/calm",
+                            "type": "",
+                            "command_line_args": "",
+                            "exit_status": [],
+                            "script_type": "sh"
+                        },
+                        "timeout_secs": "0",
+                        "type": "EXEC",
+                        "variable_list": []
+                    },
+                    {
+                        "retries": "0",
+                        "description": "",
+                        "child_tasks_local_reference_list": [
+                            {
+                                "kind": "app_task",
+                                "name": "GIT_CLEAN"
+                            },
+                            {
+                                "kind": "app_task",
+                                "name": "END"
+                            }
+                        ],
+                        "name": "800648b8_FAILURE_META",
+                        "attrs": {
+                            "type": ""
+                        },
+                        "timeout_secs": "0",
+                        "type": "META",
+                        "variable_list": []
+                    },
+                    {
+                        "retries": "0",
+                        "description": "",
+                        "child_tasks_local_reference_list": [],
+                        "name": "GIT_CLEAN",
+                        "attrs": {
+                            "script": "rm -fR ~\/calm",
+                            "type": "",
+                            "command_line_args": "",
+                            "exit_status": [],
+                            "script_type": "sh"
+                        },
+                        "timeout_secs": "0",
+                        "type": "EXEC",
+                        "variable_list": []
+                    },
+                    {
+                        "retries": "0",
+                        "description": "",
+                        "child_tasks_local_reference_list": [],
+                        "name": "END",
+                        "attrs": {
+                            "script": "print(\"Nothing to do\")",
+                            "type": "",
+                            "command_line_args": "",
+                            "exit_status": [],
+                            "script_type": "static"
+                        },
+                        "timeout_secs": "0",
+                        "type": "EXEC",
+                        "variable_list": []
+                    }
+                ],
+                "description": "",
+                "name": "4f5f7cf9_runbook",
+                "main_task_local_reference": {
+                    "kind": "app_task",
+                    "name": "17c0db7e_dag"
+                },
+                "variable_list": [
+                    {
+                        "val_type": "STRING",
+                        "is_mandatory": true,
+                        "description": "",
+                        "data_type": "BASE",
+                        "type": "LOCAL",
+                        "name": "GIT_REPO",
+                        "value": "https:\/\/github.com\/pipoe2h\/calm.git",
+                        "label": "Git repository with Terraform files",
+                        "attrs": {
+                            "type": ""
+                        },
+                        "editables": {
+                            "value": true
+                        },
+                        "is_hidden": false,
+                        "options": {
+                            "type": "PREDEFINED",
+                            "choices": []
+                        }
+                    }
+                ]
+            },
+            "client_attrs": {},
+            "default_target_reference": {
+                "kind": "app_endpoint",
+                "name": "dnd-calm-terraform"
+            }
+        },
+        "name": "demo-tf-aws_vpc"
+    },
+    "api_version": "3.0",
+    "metadata": {
+        "last_update_time": "1614591371857115",
+        "kind": "runbook",
+        "spec_version": 7,
+        "creation_time": "1611132245404107",
+        "name": "demo-tf-aws_vpc"
+    }
+}
