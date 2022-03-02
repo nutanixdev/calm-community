@@ -2,6 +2,10 @@
 
 set -e
 
+if [ @@{DOCKER_INSTALL}@@ != True ] ; then
+    exit 0
+fi
+
 echo "Uninstalling any old version..."
 sudo yum remove -y \
     docker \
