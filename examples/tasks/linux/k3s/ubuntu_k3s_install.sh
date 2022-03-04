@@ -6,8 +6,11 @@ if [ @@{K3S_INSTALL}@@ != True ] ; then
     exit 0
 fi
 
+echo "Creating resolv.conf.k3s..."
+echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf.k3s
+
 echo "Installing K3s..."
-curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
+curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644 --resolv-conf /etc/resolv.conf.k3s
 
 echo "Waiting for K3s to start..."
 until kubectl get nodes | grep -i "Ready"; do sleep 2 ; done

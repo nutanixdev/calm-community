@@ -165,7 +165,7 @@ kubectl apply -k .
 
 echo "Waiting for AWX to start..."
 response=$(curl --write-out '%{http_code}' --silent --output /dev/null ${AWX_HOST})
-until [ $response -eq 200 ]; do response=$(curl --write-out '%{http_code}' --silent --output /dev/null ${AWX_HOST}); ((response=$response)); sleep 5; done
+until [ $response -eq 200 ]; do response=$(curl --write-out '%{http_code}' --silent --output /dev/null ${AWX_HOST}); response=$response; sleep 5; done
 
 echo "Login URL: https://${AWX_HOST}"
 echo "AWX_HOST = ${AWX_HOST}"
