@@ -14,3 +14,17 @@ until kubectl get nodes | grep -i "Ready"; do sleep 2 ; done
 
 echo "K3s installed..."
 kubectl get nodes -o wide
+
+DOCKER_HUB_USERNAME="@@{DOCKER_HUB_USERNAME}@@"
+DOCKER_HUB_PASSWORD="@@{DOCKER_HUB_PASSWORD}@@"
+
+if [ -z "$DOCKER_HUB_USERNAME" ] && [ -z "$DOCKER_HUB_PASSWORD" ] ; then
+    exit 0
+else
+    echo "Setting Docker Hub credentials to avoid pull rate limits..."
+    kubectl create secret docker-registry docker-hub-secret \
+        --docker-username=${DOCKER_HUB_USERNAME} \
+        --docker-password=${DOCKER_HUB_PASSWORD}
+
+    kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "docker-hub-secret"}]}' 
+fi
