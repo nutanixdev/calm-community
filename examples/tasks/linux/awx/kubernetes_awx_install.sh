@@ -34,7 +34,7 @@ mkdir awx-installer
 cd awx-installer
 
 echo "Creating AWX SSL certificate..."
-AWX_HOST="@@{ip}@@.nip.io"
+AWX_HOST="@@{address}@@.nip.io"
 openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out ./tls.crt -keyout ./tls.key -subj "/CN=${AWX_HOST}/O=${AWX_HOST}" -addext "subjectAltName = DNS:${AWX_HOST}"
 
 echo "Creating AWX installer files..."
