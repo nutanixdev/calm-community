@@ -34,7 +34,7 @@ mkdir awx-installer
 cd awx-installer
 
 echo "Creating AWX SSL certificate..."
-AWX_HOST="@@{address}@@.nip.io"
+export AWX_HOST="@@{address}@@.nip.io"
 openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out ./tls.crt -keyout ./tls.key -subj "/CN=${AWX_HOST}/O=${AWX_HOST}" -addext "subjectAltName = DNS:${AWX_HOST}"
 
 echo "Creating AWX installer files..."
@@ -164,8 +164,16 @@ echo "Deploying AWX..."
 kubectl apply -k .
 
 echo "Waiting for AWX to start..."
-response=$(curl --write-out '%{http_code}' --silent --output /dev/null ${AWX_HOST})
-until [ $response -eq 200 ]; do response=$(curl --write-out '%{http_code}' --silent --output /dev/null ${AWX_HOST}); response=$response; sleep 5; done
+timeout 10m bash -c '
+sleep 60
+response=$(curl --write-out "%{http_code}" --silent --output /dev/null ${AWX_HOST})
+while [ $response -ne 200 ]
+do
+  response=$(curl --write-out "%{http_code}" --silent --output /dev/null ${AWX_HOST})
+  echo Response: Installing...
+  response=$response 
+  sleep 20
+done'
 
-echo "Login URL: https://${AWX_HOST}"
+echo "AWX successfully installed! Login URL: https://${AWX_HOST}"
 echo "AWX_HOST = ${AWX_HOST}"
