@@ -1,0 +1,20 @@
+AHV:
+    IMAGES:
+        DISK:
+            DISK1: # Image that already exists in AHV Image Service
+                NAME: CENTOS_STREAM_8_CLOUD_IMAGE
+            DISK2: # Image that will be downloaded as part of downloadable image feature in Calm multi machine blueprints (not available for single machine blueprints)
+                NAME: centos_8_cloud_image
+                URI: https://cloud.centos.org/centos/8-stream/x86_64/images/CentOS-Stream-GenericCloud-8-20220125.1.x86_64.qcow2
+                TYPE: DISK_IMAGE
+                ARCH: X86_64
+            DISK3:
+                NAME: FEDORA_COREOS_35_STABLE_CLOUD_IMAGE # Based on https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/35.20220131.3.0/x86_64/fedora-coreos-35.20220131.3.0-nutanix.x86_64.qcow2.xz
+    NETWORKS:
+        NETWORK1:
+            # NAME: primary
+            NAME: desktops
+PROJECTS:
+    PROJECT1:
+        # NAME: default
+        NAME: jg-demo

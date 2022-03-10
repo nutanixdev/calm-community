@@ -1,0 +1,13 @@
+AHV:
+    IMAGES:
+        DISK:
+            DISK1: # Image that already exists in AHV Image Service
+                NAME: UBUNTU_FOCAL_20.04_CLOUD_IMAGE # https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img
+    NETWORKS:
+        NETWORK1:
+            # NAME: primary
+            NAME: desktops
+PROJECTS:
+    PROJECT1:
+        # NAME: default
+        NAME: jg-demo
