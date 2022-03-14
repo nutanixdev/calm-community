@@ -133,7 +133,7 @@ dmypy.json
 **/.calm
 **/.local
 **/.tests
-**/blueprint.json
+# **/blueprint.json
 
 # OS
 .DS_Store
