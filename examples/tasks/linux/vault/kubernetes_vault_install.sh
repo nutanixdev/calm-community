@@ -36,6 +36,7 @@ echo "Vault keys available in ~/.vault/keys"
 echo "VAULT_HOST = ${VAULT_HOST}"
 
 if [ @@{VAULT_PRINT_KEYS}@@ == True ] ; then
+    sudo apt-get install -y jq
     VAULT_UNSEAL_KEY=$(jq -r '.unseal_keys_b64[0]' ~/.vault/keys)
     VAULT_ROOT_TOKEN=$(jq -r '.root_token' ~/.vault/keys)
     echo "VAULT_UNSEAL_KEY = ${VAULT_UNSEAL_KEY}"
