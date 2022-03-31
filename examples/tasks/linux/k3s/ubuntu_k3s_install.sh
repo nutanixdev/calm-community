@@ -17,6 +17,8 @@ until kubectl get nodes | grep -i "Ready"; do sleep 2 ; done
 
 echo "K3s installed..."
 kubectl get nodes -o wide
+kubectl config view --raw > ~/.kube/config
+chmod 600 ~/.kube/config
 
 DOCKER_HUB_USERNAME="@@{DOCKER_HUB_USERNAME}@@"
 DOCKER_HUB_PASSWORD="@@{DOCKER_HUB_PASSWORD}@@"
