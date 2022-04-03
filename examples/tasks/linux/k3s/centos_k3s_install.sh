@@ -18,7 +18,7 @@ echo "Installing K3s..."
 curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
 
 echo "Waiting for K3s to start..."
-until kubectl get nodes | grep -i "Ready"; do sleep 2 ; done
+until kubectl get nodes | grep -i "Ready"; do sleep 2; done
 
 echo "K3s installed..."
 kubectl get nodes -o wide
@@ -26,6 +26,7 @@ kubectl config view --raw > ~/.kube/config
 chmod 600 ~/.kube/config
 
 echo "K3s patching Traefik with hostNetwork: true ..."
+until kubectl -n kube-system get deployment traefik | grep -i "1/1"; do sleep 2; done
 kubectl -n kube-system patch deployment traefik --patch '{"spec":{"template":{"spec":{"hostNetwork":true}}}}'
 
 DOCKER_HUB_USERNAME="@@{DOCKER_HUB_USERNAME}@@"
