@@ -20,6 +20,9 @@ kubectl get nodes -o wide
 kubectl config view --raw > ~/.kube/config
 chmod 600 ~/.kube/config
 
+echo "K3s patching Traefik with hostNetwork: true ..."
+kubectl -n kube-system patch deployment traefik --patch '{"spec":{"template":{"spec":{"hostNetwork":true}}}}'
+
 DOCKER_HUB_USERNAME="@@{DOCKER_HUB_USERNAME}@@"
 DOCKER_HUB_PASSWORD="@@{DOCKER_HUB_PASSWORD}@@"
 

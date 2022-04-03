@@ -11,9 +11,32 @@ helm repo add hashicorp https://helm.releases.hashicorp.com
 
 echo "Launching Vault installation..."
 export VAULT_HOST="@@{address}@@.nip.io"
-helm install vault hashicorp/vault \
-    --set "server.ingress.enabled=true" \
-    --set "server.ingress.hosts[0].host=${VAULT_HOST}"
+
+# https://www.vaultproject.io/docs/platform/k8s/helm/configuration
+
+cat <<EOF >>values_patch.yaml
+server:
+  ingress:
+    enabled: true
+    hosts:
+    - host: ${VAULT_HOST}
+
+  standalone:
+    config: |
+      ui = true
+
+      listener "tcp" {
+        tls_disable = 1
+        address = "[::]:8200"
+        cluster_address = "[::]:8201"
+        x_forwarded_for_authorized_addrs = "0.0.0.0/0"
+      }
+
+      storage "file" {
+        path = "/vault/data"
+      }
+EOF
+helm install vault hashicorp/vault --values values_patch.yaml
 
 echo "Waiting for Vault to install..."
 timeout 10m bash -c '
@@ -36,7 +59,6 @@ echo "Vault keys available in ~/.vault/keys"
 echo "VAULT_HOST = ${VAULT_HOST}"
 
 if [ @@{VAULT_PRINT_KEYS}@@ == True ] ; then
-    sudo apt-get install -y jq
     VAULT_UNSEAL_KEY=$(jq -r '.unseal_keys_b64[0]' ~/.vault/keys)
     VAULT_ROOT_TOKEN=$(jq -r '.root_token' ~/.vault/keys)
     echo "VAULT_UNSEAL_KEY = ${VAULT_UNSEAL_KEY}"
