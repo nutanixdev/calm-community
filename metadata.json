@@ -1,88 +1,58 @@
 {
     "version": "1.0",
     "modifiedTime": "2021-11-12T12:00:00+08:00",
-    "annotations": [
-
-    ],
+    "annotations": [],
     "entities": [
         {
             "kind": "blueprint",
             "metadata": {
                 "name": "blueprint001",
                 "description": "blueprint description",
-                "annotations": [
-
-                ]
+                "annotations": []
             },
-            "schemas": [
-
-            ]
+            "schemas": []
         },
         {
             "kind": "blueprint",
             "metadata": {
                 "name": "blueprint002",
                 "description": "blueprint description",
-                "annotations": [
-
-                ]
+                "annotations": []
             },
-            "schemas": [
-
-            ]
+            "schemas": []
         },
         {
             "kind": "runbook",
             "metadata": {
                 "name": "runbook001",
                 "description": "runbook description",
-                "annotations": [
-
-                ]
+                "annotations": []
             },
-            "schemas": [
-
-            ]
+            "schemas": []
         },
         {
             "kind": "variable",
             "metadata": {
                 "name": "variable001",
                 "description": "variable description",
-                "annotations": [
-
-                ]
+                "annotations": []
             },
-            "schemas": [
-
-            ]
+            "schemas": []
         },
         {
             "kind": "task",
             "metadata": {
                 "name": "task001",
                 "description": "task description",
-                "annotations": [
-
-                ]
+                "annotations": []
             },
-            "schemas": [
-
-            ]
+            "schemas": []
         }
     ],
     "referenceKinds": [
-        {
-            "name": "runbook"
-        },
-        {
-            "name": "blueprint"
-        },
-        {
-            "name": "variable"
-        },
-        {
-            "name": "task"
-        }
+        "runbook",
+        "blueprint",
+        "variable",
+        "task"
     ]
 }
