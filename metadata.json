@@ -2,12 +2,11 @@
     "version": "1.0",
     "modifiedTime": "2021-11-12T12:00:00+08:00",
     "annotations": [],
-    "entities": [
-        {
+    "entities": [{
             "kind": "blueprint",
             "metadata": {
                 "name": "blueprint001",
-                "description": "blueprint description",
+                "description": "blueprint001 description",
                 "annotations": []
             },
             "schemas": []
@@ -16,7 +15,7 @@
             "kind": "blueprint",
             "metadata": {
                 "name": "blueprint002",
-                "description": "blueprint description",
+                "description": "blueprint002 description",
                 "annotations": []
             },
             "schemas": []
@@ -25,7 +24,7 @@
             "kind": "runbook",
             "metadata": {
                 "name": "runbook001",
-                "description": "runbook description",
+                "description": "runbook001 description",
                 "annotations": []
             },
             "schemas": []
@@ -34,7 +33,7 @@
             "kind": "variable",
             "metadata": {
                 "name": "variable001",
-                "description": "variable description",
+                "description": "variable001 description",
                 "annotations": []
             },
             "schemas": []
@@ -43,7 +42,7 @@
             "kind": "task",
             "metadata": {
                 "name": "task001",
-                "description": "task description",
+                "description": "task001 description",
                 "annotations": []
             },
             "schemas": []
