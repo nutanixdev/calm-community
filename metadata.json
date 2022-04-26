@@ -5,14 +5,18 @@
     "entities": [{
             "kind": "blueprint",
             "metadata": {
-                "name": "blueprint001",
-                "description": "blueprint001 description",
+                "name": "anthos-on-ahv",
+                "description": "Google Anthos on AHV",
                 "annotations": [{
-                    "provider": "gcp",
-                    "os": "linux"
+                    "provider": "nutanix",
+                    "os": "linux",
+                    "kubernetes": "anthos"
                 }]
             },
-            "schemas": []
+            "schemas": [{
+                "version": 1617871862682027,
+                "url": "https://raw.githubusercontent.com/nutanixdev/calm-community/main/examples/blueprints/kubernetes/platforms/anthos-on-ahv.json"
+            }]
         },
         {
             "kind": "blueprint",
