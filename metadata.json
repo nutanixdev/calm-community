@@ -7,7 +7,10 @@
             "metadata": {
                 "name": "blueprint001",
                 "description": "blueprint001 description",
-                "annotations": []
+                "annotations": [{
+                    "provider": "gcp",
+                    "os": "linux"
+                }]
             },
             "schemas": []
         },
@@ -16,7 +19,34 @@
             "metadata": {
                 "name": "blueprint002",
                 "description": "blueprint002 description",
-                "annotations": []
+                "annotations": [{
+                    "provider": "aws",
+                    "os": "linux"
+                }]
+            },
+            "schemas": []
+        },
+        {
+            "kind": "blueprint",
+            "metadata": {
+                "name": "blueprint003",
+                "description": "blueprint003 description",
+                "annotations": [{
+                    "provider": "nutanix",
+                    "os": "windows"
+                }]
+            },
+            "schemas": []
+        },
+        {
+            "kind": "blueprint",
+            "metadata": {
+                "name": "blueprint004",
+                "description": "blueprint004 description",
+                "annotations": [{
+                    "provider": "nutanix",
+                    "os": "linux"
+                }]
             },
             "schemas": []
         },
