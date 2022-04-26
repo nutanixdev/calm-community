@@ -19,7 +19,8 @@
             }, {
                 "version": "latest",
                 "url": "https://raw.githubusercontent.com/nutanixdev/calm-community/main/examples/blueprints/kubernetes/platforms/anthos-on-ahv.json"
-            }]
+            }],
+            "uri": "https://raw.githubusercontent.com/nutanixdev/calm-community/main/examples/blueprints/kubernetes/platforms/anthos-on-ahv.json"
         },
         {
             "kind": "blueprint",
