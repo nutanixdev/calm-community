@@ -29,7 +29,8 @@
                 "description": "Terraform integration with AWS VPC demo",
                 "annotations": {}
             },
-            "schemas": []
+            "schemas": [],
+            "uri": "https://raw.githubusercontent.com/nutanixdev/calm-community/main/examples/runbooks/integrations/terraform/tf_aws.json"
         },
         {
             "kind": "tasks",
