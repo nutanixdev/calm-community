@@ -87,20 +87,6 @@
         {
             "kind": "tasks",
             "metadata": {
-                "name": "kubernetes_vault_install.sh",
-                "description": "Linux - Install HashiCorp Vault in Kubernetes",
-                "annotations": {
-                    "os": "linux",
-                    "provider": "any",
-                    "script_type": "shell"
-                }
-            },
-            "schemas": [],
-            "uri": "https://raw.githubusercontent.com/nutanixdev/calm-community/main/examples/tasks/linux/vault/kubernetes_vault_install.sh"
-        },
-        {
-            "kind": "tasks",
-            "metadata": {
                 "name": "kubernetes_vault_install",
                 "description": "Linux - Install HashiCorp Vault in Kubernetes",
                 "annotations": {
