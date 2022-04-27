@@ -3,7 +3,7 @@
     "modifiedTime": "2021-11-12T12:00:00+08:00",
     "annotations": [],
     "entities": [{
-            "kind": "blueprint",
+            "kind": "blueprints",
             "metadata": {
                 "name": "anthos-on-ahv",
                 "description": "Google Anthos on AHV",
@@ -23,7 +23,7 @@
             "uri": "https://raw.githubusercontent.com/nutanixdev/calm-community/main/examples/blueprints/kubernetes/platforms/anthos-on-ahv.json"
         },
         {
-            "kind": "blueprint",
+            "kind": "blueprints",
             "metadata": {
                 "name": "blueprint002",
                 "description": "blueprint002 description",
@@ -35,7 +35,7 @@
             "schemas": []
         },
         {
-            "kind": "blueprint",
+            "kind": "blueprints",
             "metadata": {
                 "name": "blueprint003",
                 "description": "blueprint003 description",
@@ -47,7 +47,7 @@
             "schemas": []
         },
         {
-            "kind": "blueprint",
+            "kind": "blueprints",
             "metadata": {
                 "name": "blueprint004",
                 "description": "blueprint004 description",
@@ -59,7 +59,7 @@
             "schemas": []
         },
         {
-            "kind": "runbook",
+            "kind": "runbooks",
             "metadata": {
                 "name": "runbook001",
                 "description": "runbook001 description",
@@ -68,7 +68,7 @@
             "schemas": []
         },
         {
-            "kind": "variable",
+            "kind": "variables",
             "metadata": {
                 "name": "variable001",
                 "description": "variable001 description",
@@ -77,7 +77,7 @@
             "schemas": []
         },
         {
-            "kind": "task",
+            "kind": "tasks",
             "metadata": {
                 "name": "task001",
                 "description": "task001 description",
@@ -87,9 +87,9 @@
         }
     ],
     "referenceKinds": [
-        "runbook",
-        "blueprint",
-        "variable",
-        "task"
+        "runbooks",
+        "blueprints",
+        "variables",
+        "tasks"
     ]
 }
