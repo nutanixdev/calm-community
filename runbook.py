@@ -51,7 +51,7 @@ def DslCommunityRunbook():
 
     ntnx_calm_check_version = Variable.WithOptions.FromTask(
         CalmTask.Exec.escript(
-            filename="lib/check_app_version.py"
+            filename="helpers/check_app_version.py"
         ),
         is_mandatory=True,
         label="Calm Importer - upgrade available?"
@@ -105,7 +105,7 @@ def DslCommunityRunbook():
     Task.Delay(1, name="Delay")
 
     Task.Exec.escript(
-        filename="lib/generate_content.py",
+        filename="helpers/generate_content.py",
         name="Generate content"
     )
 
