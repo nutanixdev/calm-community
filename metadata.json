@@ -1,17 +1,17 @@
 {
     "version": "1.0",
-    "modifiedTime": "2021-11-12T12:00:00+08:00",
+    "modifiedTime": "2022-04-27T12:00:00+08:00",
     "annotations": [],
     "entities": [{
             "kind": "blueprints",
             "metadata": {
                 "name": "anthos-on-ahv",
                 "description": "Google Anthos on AHV",
-                "annotations": [{
+                "annotations": {
                     "provider": "nutanix",
                     "os": "linux",
                     "kubernetes": "anthos"
-                }]
+                }
             },
             "schemas": [{
                 "version": 1617871862682027,
@@ -23,67 +23,107 @@
             "uri": "https://raw.githubusercontent.com/nutanixdev/calm-community/main/examples/blueprints/kubernetes/platforms/anthos-on-ahv.json"
         },
         {
-            "kind": "blueprints",
-            "metadata": {
-                "name": "blueprint002",
-                "description": "blueprint002 description",
-                "annotations": [{
-                    "provider": "aws",
-                    "os": "linux"
-                }]
-            },
-            "schemas": []
-        },
-        {
-            "kind": "blueprints",
-            "metadata": {
-                "name": "blueprint003",
-                "description": "blueprint003 description",
-                "annotations": [{
-                    "provider": "nutanix",
-                    "os": "windows"
-                }]
-            },
-            "schemas": []
-        },
-        {
-            "kind": "blueprints",
-            "metadata": {
-                "name": "blueprint004",
-                "description": "blueprint004 description",
-                "annotations": [{
-                    "provider": "nutanix",
-                    "os": "linux"
-                }]
-            },
-            "schemas": []
-        },
-        {
             "kind": "runbooks",
             "metadata": {
-                "name": "runbook001",
-                "description": "runbook001 description",
-                "annotations": []
-            },
-            "schemas": []
-        },
-        {
-            "kind": "variables",
-            "metadata": {
-                "name": "variable001",
-                "description": "variable001 description",
-                "annotations": []
+                "name": "tf_aws",
+                "description": "Terraform integration with AWS VPC demo",
+                "annotations": {}
             },
             "schemas": []
         },
         {
             "kind": "tasks",
             "metadata": {
-                "name": "task001",
-                "description": "task001 description",
-                "annotations": []
+                "name": "elb_create_instance",
+                "description": "AWS ELB - create instance",
+                "annotations": {
+                    "provider": "aws",
+                    "service": "elb"
+                }
             },
-            "schemas": []
+            "schemas": [],
+            "uri": "https://raw.githubusercontent.com/nutanixdev/calm-community/main/examples/tasks/aws/elb/elb_create_instance.py"
+        },
+        {
+            "kind": "tasks",
+            "metadata": {
+                "name": "lambda_create_function",
+                "description": "AWS Lambda - create function",
+                "annotations": {
+                    "provider": "aws",
+                    "service": "lambda"
+                }
+            },
+            "schemas": [],
+            "uri": "https://raw.githubusercontent.com/nutanixdev/calm-community/main/examples/tasks/aws/lambda/lambda_create_function.py"
+        },
+        {
+            "kind": "tasks",
+            "metadata": {
+                "name": "rds_create_instance",
+                "description": "AWS RDS - create instance",
+                "annotations": {
+                    "provider": "aws",
+                    "service": "rds"
+                }
+            },
+            "schemas": [],
+            "uri": "https://raw.githubusercontent.com/nutanixdev/calm-community/main/examples/tasks/aws/rds/rds_create_instance.py"
+        },
+        {
+            "kind": "tasks",
+            "metadata": {
+                "name": "enable_vm_backup",
+                "description": "Azure VM - enable backup",
+                "annotations": {
+                    "provider": "azure",
+                    "service": "vm"
+                }
+            },
+            "schemas": [],
+            "uri": "https://raw.githubusercontent.com/nutanixdev/calm-community/main/examples/tasks/azure/virtual_machines/enable_vm_backup.py"
+        },
+        {
+            "kind": "tasks",
+            "metadata": {
+                "name": "kubernetes_vault_install.sh",
+                "description": "Linux - Install HashiCorp Vault in Kubernetes",
+                "annotations": {
+                    "os": "linux",
+                    "provider": "any",
+                    "script_type": "shell"
+                }
+            },
+            "schemas": [],
+            "uri": "https://raw.githubusercontent.com/nutanixdev/calm-community/main/examples/tasks/linux/vault/kubernetes_vault_install.sh"
+        },
+        {
+            "kind": "tasks",
+            "metadata": {
+                "name": "kubernetes_vault_install",
+                "description": "Linux - Install HashiCorp Vault in Kubernetes",
+                "annotations": {
+                    "os": "linux",
+                    "provider": "any",
+                    "script_type": "shell"
+                }
+            },
+            "schemas": [],
+            "uri": "https://raw.githubusercontent.com/nutanixdev/calm-community/main/examples/tasks/linux/vault/kubernetes_vault_install.sh"
+        },
+        {
+            "kind": "tasks",
+            "metadata": {
+                "name": "kubernetes_awx_install",
+                "description": "Linux - Install Ansible AWX in Kubernetes",
+                "annotations": {
+                    "os": "linux",
+                    "provider": "any",
+                    "script_type": "shell"
+                }
+            },
+            "schemas": [],
+            "uri": "https://raw.githubusercontent.com/nutanixdev/calm-community/main/examples/tasks/linux/awx/kubernetes_awx_install.sh"
         }
     ],
     "referenceKinds": [
