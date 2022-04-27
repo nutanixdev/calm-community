@@ -116,7 +116,7 @@
     "referenceKinds": [
         "runbooks",
         "blueprints",
-        "variables",
-        "tasks"
+        "variables (not implemented yet)",
+        "tasks (not implemented yet)"
     ]
 }
