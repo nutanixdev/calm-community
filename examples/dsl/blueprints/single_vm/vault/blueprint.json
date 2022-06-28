@@ -1,0 +1,724 @@
+{
+    "spec": {
+        "name": "SingleVaultNode",
+        "description": "",
+        "resources": {
+            "type": "USER",
+            "service_definition_list": [
+                {
+                    "name": "DefaultService",
+                    "description": "",
+                    "port_list": [],
+                    "singleton": false,
+                    "tier": "",
+                    "depends_on_list": [],
+                    "variable_list": [],
+                    "action_list": [
+                        {
+                            "name": "action_create",
+                            "description": "",
+                            "type": "system",
+                            "critical": true,
+                            "runbook": {
+                                "name": "Runbook_for_Service_DefaultService_action_create",
+                                "description": "",
+                                "main_task_local_reference": {
+                                    "kind": "app_task",
+                                    "name": "DAG_Task_for_Service_DefaultService_action_create"
+                                },
+                                "task_definition_list": [
+                                    {
+                                        "name": "DAG_Task_for_Service_DefaultService_action_create",
+                                        "description": "",
+                                        "type": "DAG",
+                                        "target_any_local_reference": {
+                                            "kind": "app_service",
+                                            "name": "DefaultService"
+                                        },
+                                        "attrs": {
+                                            "edges": []
+                                        },
+                                        "child_tasks_local_reference_list": [],
+                                        "variable_list": [],
+                                        "retries": "",
+                                        "timeout_secs": ""
+                                    }
+                                ],
+                                "variable_list": []
+                            }
+                        },
+                        {
+                            "name": "action_delete",
+                            "description": "",
+                            "type": "system",
+                            "critical": true,
+                            "runbook": {
+                                "name": "Runbook_for_Service_DefaultService_action_delete",
+                                "description": "",
+                                "main_task_local_reference": {
+                                    "kind": "app_task",
+                                    "name": "DAG_Task_for_Service_DefaultService_action_delete"
+                                },
+                                "task_definition_list": [
+                                    {
+                                        "name": "DAG_Task_for_Service_DefaultService_action_delete",
+                                        "description": "",
+                                        "type": "DAG",
+                                        "target_any_local_reference": {
+                                            "kind": "app_service",
+                                            "name": "DefaultService"
+                                        },
+                                        "attrs": {
+                                            "edges": []
+                                        },
+                                        "child_tasks_local_reference_list": [],
+                                        "variable_list": [],
+                                        "retries": "",
+                                        "timeout_secs": ""
+                                    }
+                                ],
+                                "variable_list": []
+                            }
+                        },
+                        {
+                            "name": "action_start",
+                            "description": "",
+                            "type": "system",
+                            "critical": true,
+                            "runbook": {
+                                "name": "Runbook_for_Service_DefaultService_action_start",
+                                "description": "",
+                                "main_task_local_reference": {
+                                    "kind": "app_task",
+                                    "name": "DAG_Task_for_Service_DefaultService_action_start"
+                                },
+                                "task_definition_list": [
+                                    {
+                                        "name": "DAG_Task_for_Service_DefaultService_action_start",
+                                        "description": "",
+                                        "type": "DAG",
+                                        "target_any_local_reference": {
+                                            "kind": "app_service",
+                                            "name": "DefaultService"
+                                        },
+                                        "attrs": {
+                                            "edges": []
+                                        },
+                                        "child_tasks_local_reference_list": [],
+                                        "variable_list": [],
+                                        "retries": "",
+                                        "timeout_secs": ""
+                                    }
+                                ],
+                                "variable_list": []
+                            }
+                        },
+                        {
+                            "name": "action_stop",
+                            "description": "",
+                            "type": "system",
+                            "critical": true,
+                            "runbook": {
+                                "name": "Runbook_for_Service_DefaultService_action_stop",
+                                "description": "",
+                                "main_task_local_reference": {
+                                    "kind": "app_task",
+                                    "name": "DAG_Task_for_Service_DefaultService_action_stop"
+                                },
+                                "task_definition_list": [
+                                    {
+                                        "name": "DAG_Task_for_Service_DefaultService_action_stop",
+                                        "description": "",
+                                        "type": "DAG",
+                                        "target_any_local_reference": {
+                                            "kind": "app_service",
+                                            "name": "DefaultService"
+                                        },
+                                        "attrs": {
+                                            "edges": []
+                                        },
+                                        "child_tasks_local_reference_list": [],
+                                        "variable_list": [],
+                                        "retries": "",
+                                        "timeout_secs": ""
+                                    }
+                                ],
+                                "variable_list": []
+                            }
+                        },
+                        {
+                            "name": "action_restart",
+                            "description": "",
+                            "type": "system",
+                            "critical": true,
+                            "runbook": {
+                                "name": "Runbook_for_Service_DefaultService_action_restart",
+                                "description": "",
+                                "main_task_local_reference": {
+                                    "kind": "app_task",
+                                    "name": "DAG_Task_for_Service_DefaultService_action_restart"
+                                },
+                                "task_definition_list": [
+                                    {
+                                        "name": "DAG_Task_for_Service_DefaultService_action_restart",
+                                        "description": "",
+                                        "type": "DAG",
+                                        "target_any_local_reference": {
+                                            "kind": "app_service",
+                                            "name": "DefaultService"
+                                        },
+                                        "attrs": {
+                                            "edges": []
+                                        },
+                                        "child_tasks_local_reference_list": [],
+                                        "variable_list": [],
+                                        "retries": "",
+                                        "timeout_secs": ""
+                                    }
+                                ],
+                                "variable_list": []
+                            }
+                        },
+                        {
+                            "name": "action_soft_delete",
+                            "description": "",
+                            "type": "system",
+                            "critical": true,
+                            "runbook": {
+                                "name": "Runbook_for_Service_DefaultService_action_soft_delete",
+                                "description": "",
+                                "main_task_local_reference": {
+                                    "kind": "app_task",
+                                    "name": "DAG_Task_for_Service_DefaultService_action_soft_delete"
+                                },
+                                "task_definition_list": [
+                                    {
+                                        "name": "DAG_Task_for_Service_DefaultService_action_soft_delete",
+                                        "description": "",
+                                        "type": "DAG",
+                                        "target_any_local_reference": {
+                                            "kind": "app_service",
+                                            "name": "DefaultService"
+                                        },
+                                        "attrs": {
+                                            "edges": []
+                                        },
+                                        "child_tasks_local_reference_list": [],
+                                        "variable_list": [],
+                                        "retries": "",
+                                        "timeout_secs": ""
+                                    }
+                                ],
+                                "variable_list": []
+                            }
+                        }
+                    ],
+                    "container_spec": {}
+                }
+            ],
+            "package_definition_list": [
+                {
+                    "name": "DefaultPackage",
+                    "description": "",
+                    "type": "CUSTOM",
+                    "options": {
+                        "install_runbook": {
+                            "name": "DefaultPackage___install___runbook",
+                            "description": "",
+                            "main_task_local_reference": {
+                                "kind": "app_task",
+                                "name": "DefaultPackage___install___dag"
+                            },
+                            "task_definition_list": [
+                                {
+                                    "name": "DefaultPackage___install___dag",
+                                    "description": "",
+                                    "type": "DAG",
+                                    "target_any_local_reference": {
+                                        "kind": "app_service",
+                                        "name": "DefaultService"
+                                    },
+                                    "attrs": {
+                                        "edges": [
+                                            {
+                                                "from_task_reference": {
+                                                    "kind": "app_task",
+                                                    "name": "EXPAND_DISK"
+                                                },
+                                                "to_task_reference": {
+                                                    "kind": "app_task",
+                                                    "name": "K3S_INSTALL"
+                                                }
+                                            },
+                                            {
+                                                "from_task_reference": {
+                                                    "kind": "app_task",
+                                                    "name": "K3S_INSTALL"
+                                                },
+                                                "to_task_reference": {
+                                                    "kind": "app_task",
+                                                    "name": "HELM_INSTALL"
+                                                }
+                                            },
+                                            {
+                                                "from_task_reference": {
+                                                    "kind": "app_task",
+                                                    "name": "HELM_INSTALL"
+                                                },
+                                                "to_task_reference": {
+                                                    "kind": "app_task",
+                                                    "name": "VAULT_INSTALL"
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "child_tasks_local_reference_list": [
+                                        {
+                                            "kind": "app_task",
+                                            "name": "EXPAND_DISK"
+                                        },
+                                        {
+                                            "kind": "app_task",
+                                            "name": "K3S_INSTALL"
+                                        },
+                                        {
+                                            "kind": "app_task",
+                                            "name": "HELM_INSTALL"
+                                        },
+                                        {
+                                            "kind": "app_task",
+                                            "name": "VAULT_INSTALL"
+                                        }
+                                    ],
+                                    "variable_list": [],
+                                    "retries": "",
+                                    "timeout_secs": ""
+                                },
+                                {
+                                    "name": "EXPAND_DISK",
+                                    "description": "",
+                                    "type": "EXEC",
+                                    "target_any_local_reference": {
+                                        "kind": "app_service",
+                                        "name": "DefaultService"
+                                    },
+                                    "attrs": {
+                                        "script_type": "static",
+                                        "script": "vmUuid = '@@{id}@@'\ndiskSize = @@{OS_DISK_SIZE}@@ # GB\npcAddress = '@@{NTNX_PC_IP}@@'\npcUsername = '@@{CRED_PC.username}@@'\npcPassword = '@@{CRED_PC.secret}@@'\n\n# ============== DO NO CHANGE AFTER THIS ===============\n\nusrPass = '{}:{}'.format(pcUsername,pcPassword)\nb64Pass = base64.b64encode(usrPass)\n\n# Get VM\napi_url = 'https://{}:9440/api/nutanix/v3/vms/{}'.format(pcAddress,vmUuid)\nheaders = {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Basic {}'.format(b64Pass)}\n\nr = urlreq(api_url, verb='GET', headers=headers, verify=False)\nif r.ok:\n    resp = json.loads(r.content)\n\nelse:\n    print(\"Post request failed\", r.content)\n    exit(1)\n\n# Power off VM and extend disk\ndel resp['status']\n\ndisk_size_mib = diskSize * 1024\ndisk_size_bytes = disk_size_mib * 1024**2\n\nresp['spec']['resources']['disk_list'][0]['disk_size_mib'] = disk_size_mib\nresp['spec']['resources']['disk_list'][0]['disk_size_bytes'] = disk_size_bytes\nresp['spec']['resources']['power_state'] = 'OFF'\n\npayload = resp\n\nr = urlreq(api_url, verb='PUT', params=json.dumps(payload), headers=headers, verify=False)\nif r.ok:\n    resp = json.loads(r.content)\n    taskUuid = resp['status']['execution_context']['task_uuid']\n\nelse:\n    print(\"Post request failed\", r.content)\n    exit(1)\n\n\n# Monitor task\nstate = \"\"\nwhile state != \"SUCCEEDED\":\n    api_url = 'https://{}:9440/api/nutanix/v3/tasks/{}'.format(pcAddress,taskUuid)\n\n    sleep(2)\n    r = urlreq(api_url, verb='GET', headers=headers, verify=False)\n    if r.ok:\n        resp = json.loads(r.content)\n        state = resp['status']\n        if state == \"FAILED\":\n            print(\"Task failed\", resp['progress_message'])\n            exit(1)\n\n    else:\n        print(\"Post request failed\", r.content)\n        exit(1)\n\n# Wait for VM to power off\napi_url = 'https://{}:9440/api/nutanix/v3/vms/{}'.format(pcAddress,vmUuid)\nr = urlreq(api_url, verb='GET', headers=headers, verify=False)\nif r.ok:\n    resp = json.loads(r.content)\n    power_state = resp['status']['resources']['power_state']\n\nelse:\n    print(\"Post request failed\", r.content)\n    exit(1)\n\nstate = \"\"\nwhile state != \"OFF\":\n    api_url = 'https://{}:9440/api/nutanix/v3/vms/{}'.format(pcAddress,vmUuid)\n\n    sleep(2)\n    r = urlreq(api_url, verb='GET', headers=headers, verify=False)\n    if r.ok:\n        resp = json.loads(r.content)\n        state = resp['status']['resources']['power_state']\n        if state == \"FAILED\":\n            print(\"Task failed\", resp['progress_message'])\n            exit(1)\n\n    else:\n        print(\"Post request failed\", r.content)\n        exit(1)\n\n# Power on VM\ndel resp['status']\n\nresp['spec']['resources']['power_state'] = 'ON'\n\napi_url = 'https://{}:9440/api/nutanix/v3/vms/{}'.format(pcAddress,vmUuid)\npayload = resp\n\nr = urlreq(api_url, verb='PUT', params=json.dumps(payload), headers=headers, verify=False)\nif r.ok:\n    resp = json.loads(r.content)\n    taskUuid = resp['status']['execution_context']['task_uuid']\n\nelse:\n    print(\"Post request failed\", r.content)\n    exit(1)\n\n# Monitor task\nstate = \"\"\nwhile state != \"SUCCEEDED\":\n    api_url = 'https://{}:9440/api/nutanix/v3/tasks/{}'.format(pcAddress,taskUuid)\n\n    sleep(2)\n    r = urlreq(api_url, verb='GET', headers=headers, verify=False)\n    if r.ok:\n        resp = json.loads(r.content)\n        state = resp['status']\n        if state == \"FAILED\":\n            print(\"Task failed\", resp['progress_message'])\n            exit(1)\n\n    else:\n        print(\"Post request failed\", r.content)\n        exit(1)\n\nprint(\"OS disk extended to {} GB\".format(diskSize))\n\n# Wait until VM boots\nsleep(60)"
+                                    },
+                                    "child_tasks_local_reference_list": [],
+                                    "variable_list": [],
+                                    "retries": "",
+                                    "timeout_secs": ""
+                                },
+                                {
+                                    "name": "K3S_INSTALL",
+                                    "description": "",
+                                    "type": "EXEC",
+                                    "target_any_local_reference": {
+                                        "kind": "app_service",
+                                        "name": "DefaultService"
+                                    },
+                                    "attrs": {
+                                        "script_type": "sh",
+                                        "script": "#!/bin/bash\n\nset -e\n\nif [ @@{K3S_INSTALL}@@ != True ] ; then\n    exit 0\nfi\n\necho \"Creating resolv.conf.k3s...\"\necho \"nameserver 8.8.8.8\" | sudo tee /etc/resolv.conf.k3s\n\necho \"Installing K3s...\"\ncurl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644 --resolv-conf /etc/resolv.conf.k3s\n\necho \"Waiting for K3s to start...\"\nuntil kubectl get nodes | grep -i \"Ready\"; do sleep 2; done\n\necho \"K3s installed...\"\nkubectl get nodes -o wide\nkubectl config view --raw > ~/.kube/config\nchmod 600 ~/.kube/config\n\necho \"K3s patching Traefik with hostNetwork: true ...\"\nuntil kubectl -n kube-system get deployment traefik | grep -i \"1/1\"; do sleep 2; done\nkubectl -n kube-system patch deployment traefik --patch '{\"spec\":{\"template\":{\"spec\":{\"hostNetwork\":true}}}}'\n\nDOCKER_HUB_USERNAME=\"@@{DOCKER_HUB_USERNAME}@@\"\nDOCKER_HUB_PASSWORD=\"@@{DOCKER_HUB_PASSWORD}@@\"\n\nif [ -z \"$DOCKER_HUB_USERNAME\" ] && [ -z \"$DOCKER_HUB_PASSWORD\" ] ; then\n    exit 0\nelse\n    echo \"Setting Docker Hub credentials to avoid pull rate limits...\"\n    kubectl create secret docker-registry docker-hub-secret \\\n        --docker-username=${DOCKER_HUB_USERNAME} \\\n        --docker-password=${DOCKER_HUB_PASSWORD}\n\n    kubectl patch serviceaccount default -p '{\"imagePullSecrets\": [{\"name\": \"docker-hub-secret\"}]}' \nfi"
+                                    },
+                                    "child_tasks_local_reference_list": [],
+                                    "variable_list": [],
+                                    "retries": "",
+                                    "timeout_secs": ""
+                                },
+                                {
+                                    "name": "HELM_INSTALL",
+                                    "description": "",
+                                    "type": "EXEC",
+                                    "target_any_local_reference": {
+                                        "kind": "app_service",
+                                        "name": "DefaultService"
+                                    },
+                                    "attrs": {
+                                        "script_type": "sh",
+                                        "script": "#!/bin/bash\n\nset -e\n\ncurl https://baltocdn.com/helm/signing.asc | sudo apt-key add -\nsudo apt-get install apt-transport-https --yes\necho \"deb https://baltocdn.com/helm/stable/debian/ all main\" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list\nsudo apt-get update -y\nsudo apt-get install -y helm jq"
+                                    },
+                                    "child_tasks_local_reference_list": [],
+                                    "variable_list": [],
+                                    "retries": "",
+                                    "timeout_secs": ""
+                                },
+                                {
+                                    "name": "VAULT_INSTALL",
+                                    "description": "",
+                                    "type": "SET_VARIABLE",
+                                    "target_any_local_reference": {
+                                        "kind": "app_service",
+                                        "name": "DefaultService"
+                                    },
+                                    "attrs": {
+                                        "script_type": "sh",
+                                        "script": "#!/bin/bash\n\nset -e\n\nif [ @@{VAULT_INSTALL}@@ != True ] ; then\n    exit 0\nfi\n\necho \"Installing dependencies...\"\nhelm repo add hashicorp https://helm.releases.hashicorp.com\n\necho \"Launching Vault installation...\"\nexport VAULT_HOST=\"@@{address}@@.nip.io\"\n\n# https://www.vaultproject.io/docs/platform/k8s/helm/configuration\n\ncat <<EOF >>values_patch.yaml\nserver:\n  ingress:\n    enabled: true\n    hosts:\n    - host: ${VAULT_HOST}\n\n  standalone:\n    config: |\n      ui = true\n\n      listener \"tcp\" {\n        tls_disable = 1\n        address = \"[::]:8200\"\n        cluster_address = \"[::]:8201\"\n        x_forwarded_for_authorized_addrs = \"0.0.0.0/0\"\n      }\n\n      storage \"file\" {\n        path = \"/vault/data\"\n      }\nEOF\nhelm install vault hashicorp/vault --values values_patch.yaml\n\necho \"Waiting for Vault to install...\"\ntimeout 10m bash -c '\nsleep 60\nresponse=$(curl --write-out \"%{http_code}\" --silent --output /dev/null ${VAULT_HOST})\nwhile [ $response -ne 307 ]\ndo\n  response=$(curl --write-out \"%{http_code}\" --silent --output /dev/null ${VAULT_HOST})\n  echo Response: Installing...\n  response=$response \n  sleep 20\ndone'\n\nmkdir -p ~/.vault\nkubectl exec -ti vault-0 -- vault operator init -key-shares=1 -key-threshold=1 -format=json > ~/.vault/keys\nchmod 600 ~/.vault/keys\n\necho \"Vault successfully installed! Login URL: https://${VAULT_HOST}\"\necho \"Vault keys available in ~/.vault/keys\"\necho \"VAULT_HOST = ${VAULT_HOST}\"\n\nif [ @@{VAULT_PRINT_KEYS}@@ == True ] ; then\n    VAULT_UNSEAL_KEY=$(jq -r '.unseal_keys_b64[0]' ~/.vault/keys)\n    VAULT_ROOT_TOKEN=$(jq -r '.root_token' ~/.vault/keys)\n    echo \"VAULT_UNSEAL_KEY = ${VAULT_UNSEAL_KEY}\"\n    echo \"VAULT_ROOT_TOKEN = ${VAULT_ROOT_TOKEN}\"\nfi",
+                                        "eval_variables": [
+                                            "VAULT_HOST",
+                                            "VAULT_UNSEAL_KEY",
+                                            "VAULT_ROOT_TOKEN"
+                                        ]
+                                    },
+                                    "child_tasks_local_reference_list": [],
+                                    "variable_list": [],
+                                    "retries": "",
+                                    "timeout_secs": ""
+                                }
+                            ],
+                            "variable_list": []
+                        },
+                        "uninstall_runbook": {
+                            "name": "Runbook_for_Package_DefaultPackage_action_uninstall",
+                            "description": "",
+                            "main_task_local_reference": {
+                                "kind": "app_task",
+                                "name": "DAG_Task_for_Package_DefaultPackage_action_uninstall"
+                            },
+                            "task_definition_list": [
+                                {
+                                    "name": "DAG_Task_for_Package_DefaultPackage_action_uninstall",
+                                    "description": "",
+                                    "type": "DAG",
+                                    "target_any_local_reference": {
+                                        "kind": "app_service",
+                                        "name": "DefaultService"
+                                    },
+                                    "attrs": {
+                                        "edges": []
+                                    },
+                                    "child_tasks_local_reference_list": [],
+                                    "variable_list": [],
+                                    "retries": "",
+                                    "timeout_secs": ""
+                                }
+                            ],
+                            "variable_list": []
+                        }
+                    },
+                    "service_local_reference_list": [
+                        {
+                            "kind": "app_service",
+                            "name": "DefaultService"
+                        }
+                    ],
+                    "variable_list": [],
+                    "version": ""
+                }
+            ],
+            "published_service_definition_list": [],
+            "substrate_definition_list": [
+                {
+                    "name": "DefaultSubstrate",
+                    "description": "",
+                    "type": "AHV_VM",
+                    "os_type": "Linux",
+                    "create_spec": {
+                        "name": "@@{calm_application_name}@@",
+                        "categories": {},
+                        "resources": {
+                            "nic_list": [
+                                {
+                                    "network_function_nic_type": "INGRESS",
+                                    "nic_type": "NORMAL_NIC",
+                                    "subnet_reference": {
+                                        "kind": "subnet",
+                                        "name": "desktops",
+                                        "uuid": "0e26c135-d478-428e-9fb8-22c0acfa5f3a"
+                                    },
+                                    "network_function_chain_reference": null,
+                                    "mac_address": "",
+                                    "ip_endpoint_list": []
+                                }
+                            ],
+                            "num_vcpus_per_socket": 1,
+                            "num_sockets": 2,
+                            "memory_size_mib": 4096,
+                            "power_state": "ON",
+                            "account_uuid": "4e4f1d3b-9492-4502-9eed-d994192669a4",
+                            "gpu_list": [],
+                            "disk_list": [
+                                {
+                                    "data_source_reference": {
+                                        "kind": "image",
+                                        "name": "UBUNTU_FOCAL_20.04_CLOUD_IMAGE",
+                                        "uuid": "ec0f310f-dd22-4cbc-a0d6-0f46be7b0652"
+                                    },
+                                    "device_properties": {
+                                        "device_type": "DISK",
+                                        "disk_address": {
+                                            "device_index": 0,
+                                            "adapter_type": "SCSI"
+                                        }
+                                    },
+                                    "disk_size_mib": 0
+                                }
+                            ],
+                            "guest_customization": {
+                                "sysprep": null,
+                                "cloud_init": {
+                                    "user_data": "#cloud-config\nhostname: @@{name}@@\nusers:\n- name: @@{OS_CRED.username}@@\n  shell: /bin/bash\n  ssh-authorized-keys:\n  - @@{OS_CRED.public_key}@@\n  sudo:\n  - ALL=(ALL) NOPASSWD:ALL\n"
+                                }
+                            },
+                            "serial_port_list": [
+                                {
+                                    "index": 0,
+                                    "is_connected": false
+                                }
+                            ],
+                            "boot_config": {
+                                "boot_device": {
+                                    "disk_address": {
+                                        "device_index": 0,
+                                        "adapter_type": "SCSI"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "variable_list": [],
+                    "action_list": [],
+                    "readiness_probe": {
+                        "connection_type": "SSH",
+                        "connection_port": 22,
+                        "connection_protocol": "",
+                        "timeout_secs": "",
+                        "delay_secs": "60",
+                        "retries": "5",
+                        "address": "@@{platform.status.resources.nic_list[0].ip_endpoint_list[0].ip}@@",
+                        "disable_readiness_probe": false,
+                        "login_credential_local_reference": {
+                            "kind": "app_credential",
+                            "name": "OS_CRED"
+                        }
+                    },
+                    "editables": {}
+                }
+            ],
+            "credential_definition_list": [
+                {
+                    "name": "OS_CRED",
+                    "description": "",
+                    "type": "KEY",
+                    "username": "nutanix",
+                    "secret": {
+                        "attrs": {
+                            "is_secret_modified": true
+                        }
+                    },
+                    "cred_class": "static",
+                    "editables": {}
+                },
+                {
+                    "name": "CRED_PC",
+                    "description": "",
+                    "type": "PASSWORD",
+                    "username": "admin",
+                    "secret": {
+                        "attrs": {
+                            "is_secret_modified": true
+                        }
+                    },
+                    "cred_class": "static",
+                    "editables": {}
+                }
+            ],
+            "app_profile_list": [
+                {
+                    "name": "Default",
+                    "deployment_create_list": [
+                        {
+                            "published_service_local_reference_list": [],
+                            "package_local_reference_list": [
+                                {
+                                    "kind": "app_package",
+                                    "name": "DefaultPackage"
+                                }
+                            ],
+                            "substrate_local_reference": {
+                                "kind": "app_substrate",
+                                "name": "DefaultSubstrate"
+                            },
+                            "depends_on_list": [],
+                            "variable_list": [],
+                            "action_list": [],
+                            "min_replicas": "1",
+                            "default_replicas": "",
+                            "max_replicas": "1",
+                            "type": "GREENFIELD",
+                            "name": "DefaultDeployment",
+                            "options": {},
+                            "description": "",
+                            "editables": {}
+                        }
+                    ],
+                    "variable_list": [
+                        {
+                            "name": "K3S_INSTALL",
+                            "description": "Enabling K3s lets you easily install containerized applications.",
+                            "type": "LOCAL",
+                            "label": "Install K3s",
+                            "attrs": {},
+                            "val_type": "STRING",
+                            "value": "True",
+                            "data_type": "BASE",
+                            "is_hidden": true,
+                            "is_mandatory": false
+                        },
+                        {
+                            "name": "VAULT_INSTALL",
+                            "description": "Install Vault for secrets management.",
+                            "type": "LOCAL",
+                            "label": "Install Vault",
+                            "attrs": {},
+                            "val_type": "STRING",
+                            "value": "True",
+                            "data_type": "BASE",
+                            "options": {
+                                "type": "PREDEFINED",
+                                "choices": [
+                                    "True",
+                                    "False"
+                                ]
+                            },
+                            "is_hidden": false,
+                            "is_mandatory": true
+                        },
+                        {
+                            "name": "VAULT_PRINT_KEYS",
+                            "description": "If true, Vault keys will be visible in Audit logs",
+                            "type": "LOCAL",
+                            "label": "Print out Vault keys",
+                            "attrs": {},
+                            "val_type": "STRING",
+                            "value": "False",
+                            "data_type": "BASE",
+                            "options": {
+                                "type": "PREDEFINED",
+                                "choices": [
+                                    "True",
+                                    "False"
+                                ]
+                            },
+                            "is_hidden": false,
+                            "is_mandatory": true
+                        },
+                        {
+                            "name": "DOCKER_HUB_USERNAME",
+                            "description": "",
+                            "type": "LOCAL",
+                            "label": "",
+                            "attrs": {},
+                            "val_type": "STRING",
+                            "value": "youruser",
+                            "data_type": "BASE",
+                            "editables": {
+                                "value": true
+                            },
+                            "is_hidden": false,
+                            "is_mandatory": false
+                        },
+                        {
+                            "name": "DOCKER_HUB_PASSWORD",
+                            "description": "",
+                            "type": "SECRET",
+                            "label": "",
+                            "attrs": {},
+                            "val_type": "STRING",
+                            "data_type": "BASE",
+                            "editables": {
+                                "value": true
+                            },
+                            "is_hidden": false,
+                            "is_mandatory": false
+                        },
+                        {
+                            "name": "OS_DISK_SIZE",
+                            "description": "",
+                            "type": "LOCAL",
+                            "label": "",
+                            "attrs": {},
+                            "val_type": "INT",
+                            "value": "20",
+                            "data_type": "BASE",
+                            "regex": {
+                                "value": "^[\\d]*$",
+                                "should_validate": false
+                            },
+                            "is_hidden": false,
+                            "is_mandatory": false
+                        },
+                        {
+                            "name": "NTNX_PC_IP",
+                            "description": "",
+                            "type": "LOCAL",
+                            "label": "",
+                            "attrs": {},
+                            "val_type": "STRING",
+                            "value": "127.0.0.1",
+                            "data_type": "BASE",
+                            "is_hidden": false,
+                            "is_mandatory": false
+                        }
+                    ],
+                    "patch_list": [],
+                    "action_list": []
+                }
+            ],
+            "client_attrs": {
+                "None": {
+                    "Service": {
+                        "DefaultService": {
+                            "dsl_name": "DefaultService",
+                            "Action": {}
+                        }
+                    },
+                    "Package": {
+                        "DefaultPackage": {
+                            "dsl_name": "DefaultPackage",
+                            "Action": {}
+                        }
+                    },
+                    "Deployment": {
+                        "DefaultDeployment": {
+                            "dsl_name": "DefaultDeployment",
+                            "Action": {}
+                        }
+                    },
+                    "Profile": {
+                        "Default": {
+                            "dsl_name": "Default",
+                            "Action": {}
+                        }
+                    },
+                    "Substrate": {
+                        "DefaultSubstrate": {
+                            "dsl_name": "DefaultSubstrate",
+                            "Action": {},
+                            "AhvVm": {
+                                "@@{calm_application_name}@@": {
+                                    "dsl_name": "@@{calm_application_name}@@"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "default_credential_local_reference": {
+                "kind": "app_credential",
+                "name": "OS_CRED"
+            }
+        }
+    },
+    "api_version": "3.0",
+    "metadata": {
+        "name": "SingleVaultNode",
+        "kind": "blueprint",
+        "categories": {
+            "TemplateType": "Vm"
+        },
+        "spec_version": 1
+    }
+}
