@@ -6,10 +6,10 @@ if [ @@{VAULT_INSTALL}@@ != True ] ; then
     exit 0
 fi
 
-echo "Installing dependencies..."
+printf "\n=======> Adding Hashicorp's Helm repository...\n"
 helm repo add hashicorp https://helm.releases.hashicorp.com
 
-echo "Launching Vault installation..."
+printf "\n=======> Preparing Vault installation...\n"
 export VAULT_HOST="@@{address}@@.nip.io"
 
 # https://www.vaultproject.io/docs/platform/k8s/helm/configuration
@@ -36,9 +36,11 @@ server:
         path = "/vault/data"
       }
 EOF
+
+printf "\n=======> Launching Vault installation...\n"
 helm install vault hashicorp/vault --values values_patch.yaml
 
-echo "Waiting for Vault to install..."
+printf "\n=======> Waiting for Vault to install...\n"
 timeout 10m bash -c '
 sleep 60
 response=$(curl --write-out "%{http_code}" --silent --output /dev/null ${VAULT_HOST})
@@ -54,13 +56,23 @@ mkdir -p ~/.vault
 kubectl exec -ti vault-0 -- vault operator init -key-shares=1 -key-threshold=1 -format=json > ~/.vault/keys
 chmod 600 ~/.vault/keys
 
-echo "Vault successfully installed! Login URL: https://${VAULT_HOST}"
-echo "Vault keys available in ~/.vault/keys"
-echo "VAULT_HOST = ${VAULT_HOST}"
+echo "alias vault='kubectl exec vault-0 -- env VAULT_TOKEN=$(jq -r .root_token ~/.vault/keys) vault'" >> ~/.bashrc
+
+printf "\n=======> Connection details...\n"
+echo "Vault successfully installed!\nLogin URL: https://${VAULT_HOST}"
+echo "Vault keys available via SSH in: ~/.vault/keys"
 
 if [ @@{VAULT_PRINT_KEYS}@@ == True ] ; then
     VAULT_UNSEAL_KEY=$(jq -r '.unseal_keys_b64[0]' ~/.vault/keys)
     VAULT_ROOT_TOKEN=$(jq -r '.root_token' ~/.vault/keys)
+    echo "Vault unseal key: ${VAULT_UNSEAL_KEY}"
+    echo "Vault root token: ${VAULT_ROOT_TOKEN}"
+fi
+
+printf "\n=======> Setting Service variables\n"
+if [ @@{VAULT_PRINT_KEYS}@@ == True ] ; then
     echo "VAULT_UNSEAL_KEY = ${VAULT_UNSEAL_KEY}"
     echo "VAULT_ROOT_TOKEN = ${VAULT_ROOT_TOKEN}"
 fi
+
+echo "VAULT_HOST = ${VAULT_HOST}"
