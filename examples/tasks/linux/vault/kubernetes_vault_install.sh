@@ -6,7 +6,7 @@ if [ @@{VAULT_INSTALL}@@ != True ] ; then
     exit 0
 fi
 
-printf "\n=======> Adding Hashicorp's Helm repository...\n"
+printf "\n=======> Adding Hashicorp Helm repository...\n"
 helm repo add hashicorp https://helm.releases.hashicorp.com
 
 printf "\n=======> Preparing Vault installation...\n"

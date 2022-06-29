@@ -63,6 +63,10 @@ class VaultAhvResources(AhvVmResources):
 class Default(VmProfile):
 
     # Profile variables
+    DOCKER_HUB_PASSWORD = CalmVariable.Simple.Secret(
+        read_local_file(".tests/passwords/docker"), runtime=True)
+    DOCKER_HUB_USERNAME = CalmVariable.Simple.string("youruser", runtime=True)
+
     K3S_INSTALL = CalmVariable.Simple.string(
         value="True",
         name="K3S_INSTALL",
@@ -70,12 +74,11 @@ class Default(VmProfile):
         is_hidden=True,
         description="Enabling K3s lets you easily install containerized applications.")
 
-    VAULT_INSTALL = CalmVariable.WithOptions.Predefined.string(
-        options=["True", "False"],
-        default="True",
+    VAULT_INSTALL = CalmVariable.Simple.string(
+        value="True",
         name="VAULT_INSTALL",
         label="Install Vault",
-        is_mandatory=True,
+        is_hidden=True,
         description="Install Vault for secrets management.")
 
     VAULT_PRINT_KEYS = CalmVariable.WithOptions.Predefined.string(
@@ -84,13 +87,12 @@ class Default(VmProfile):
         name="VAULT_PRINT_KEYS",
         label="Print out Vault keys",
         is_mandatory=True,
+        runtime=True,
         description="If true, Vault keys will be visible in Audit logs")
 
-    DOCKER_HUB_USERNAME = CalmVariable.Simple.string("youruser", runtime=True)
-    DOCKER_HUB_PASSWORD = CalmVariable.Simple.Secret(
-        read_local_file(".tests/passwords/docker"), runtime=True)
     OS_DISK_SIZE = CalmVariable.Simple.int("20")
     NTNX_PC_IP = CalmVariable.Simple.string("127.0.0.1")
+    K3S_DNS_SERVER = CalmVariable.Simple.string("8.8.8.8")
 
     # VM Spec for Substrate
     provider_spec = ahv_vm(resources=VaultAhvResources,
