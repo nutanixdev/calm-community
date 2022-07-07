@@ -6,6 +6,16 @@ if [ @@{VAULT_INSTALL}@@ != True ] ; then
     exit 0
 fi
 
+printf "\n=======> Installing Vault CLI locally...\n"
+if command -v apt &> /dev/null
+then
+    sudo apt install -y gpg
+    wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg >/dev/null
+    echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+    sudo apt update && sudo apt install -y vault
+fi
+
+
 printf "\n=======> Adding Hashicorp Helm repository...\n"
 helm repo add hashicorp https://helm.releases.hashicorp.com
 
@@ -20,6 +30,7 @@ server:
     enabled: true
     hosts:
     - host: ${VAULT_HOST}
+    - host: localhost
 
   standalone:
     config: |
@@ -51,28 +62,28 @@ do
   response=$response 
   sleep 20
 done'
+printf "\n=======> Vault successfully installed!"
 
-mkdir -p ~/.vault
-kubectl exec -ti vault-0 -- vault operator init -key-shares=1 -key-threshold=1 -format=json > ~/.vault/keys
-chmod 600 ~/.vault/keys
+kubectl exec -ti vault-0 -- vault operator init -key-shares=1 -key-threshold=1 -format=json > ~/.keys
+chmod 600 ~/.keys
 
-echo "alias vault='kubectl exec vault-0 -- env VAULT_TOKEN=$(jq -r .root_token ~/.vault/keys) vault'" >> ~/.bashrc
+echo "alias vault='env VAULT_ADDR=http://localhost/ vault'" >> ~/.bashrc
 
 printf "\n=======> Connection details...\n"
-echo "Vault successfully installed!\nLogin URL: https://${VAULT_HOST}"
-echo "Vault keys available via SSH in: ~/.vault/keys"
+echo "Login URL: https://${VAULT_HOST}"
+echo "Vault keys available via SSH in: ~/.keys"
 
 if [ @@{VAULT_PRINT_KEYS}@@ == True ] ; then
-    VAULT_UNSEAL_KEY=$(jq -r '.unseal_keys_b64[0]' ~/.vault/keys)
-    VAULT_ROOT_TOKEN=$(jq -r '.root_token' ~/.vault/keys)
-    echo "Vault unseal key: ${VAULT_UNSEAL_KEY}"
-    echo "Vault root token: ${VAULT_ROOT_TOKEN}"
+    export VAULT_UNSEAL=$(jq -r '.unseal_keys_b64[0]' ~/.keys)
+    export VAULT_TOKEN=$(jq -r '.root_token' ~/.keys)
+    echo "Vault unseal key: ${VAULT_UNSEAL}"
+    echo "Vault root token: ${VAULT_TOKEN}"
 fi
 
 printf "\n=======> Setting Service variables\n"
 if [ @@{VAULT_PRINT_KEYS}@@ == True ] ; then
-    echo "VAULT_UNSEAL_KEY = ${VAULT_UNSEAL_KEY}"
-    echo "VAULT_ROOT_TOKEN = ${VAULT_ROOT_TOKEN}"
+    echo "VAULT_UNSEAL = ${VAULT_UNSEAL}"
+    echo "VAULT_TOKEN = ${VAULT_TOKEN}"
 fi
 
 echo "VAULT_HOST = ${VAULT_HOST}"
