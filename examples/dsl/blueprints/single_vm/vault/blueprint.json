@@ -321,7 +321,7 @@
                                     },
                                     "attrs": {
                                         "script_type": "sh",
-                                        "script": "#!/bin/bash\n\nset -e\n\nif [ @@{K3S_INSTALL}@@ != True ] ; then\n    exit 0\nfi\n\necho \"Creating resolv.conf.k3s...\"\necho \"nameserver 8.8.8.8\" | sudo tee /etc/resolv.conf.k3s\n\necho \"Installing K3s...\"\ncurl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644 --resolv-conf /etc/resolv.conf.k3s\n\necho \"Waiting for K3s to start...\"\nuntil kubectl get nodes | grep -i \"Ready\"; do sleep 2; done\n\necho \"K3s installed...\"\nkubectl get nodes -o wide\nkubectl config view --raw > ~/.kube/config\nchmod 600 ~/.kube/config\n\necho \"K3s patching Traefik with hostNetwork: true ...\"\nuntil kubectl -n kube-system get deployment traefik | grep -i \"1/1\"; do sleep 2; done\nkubectl -n kube-system patch deployment traefik --patch '{\"spec\":{\"template\":{\"spec\":{\"hostNetwork\":true}}}}'\n\nDOCKER_HUB_USERNAME=\"@@{DOCKER_HUB_USERNAME}@@\"\nDOCKER_HUB_PASSWORD=\"@@{DOCKER_HUB_PASSWORD}@@\"\n\nif [ -z \"$DOCKER_HUB_USERNAME\" ] && [ -z \"$DOCKER_HUB_PASSWORD\" ] ; then\n    exit 0\nelse\n    echo \"Setting Docker Hub credentials to avoid pull rate limits...\"\n    kubectl create secret docker-registry docker-hub-secret \\\n        --docker-username=${DOCKER_HUB_USERNAME} \\\n        --docker-password=${DOCKER_HUB_PASSWORD}\n\n    kubectl patch serviceaccount default -p '{\"imagePullSecrets\": [{\"name\": \"docker-hub-secret\"}]}' \nfi"
+                                        "script": "#!/bin/bash\n\nset -e\n\nif [ @@{K3S_INSTALL}@@ != True ] ; then\n    exit 0\nfi\n\nprintf \"\\n=======> Creating resolv.conf.k3s...\\n\"\necho \"nameserver @@{K3S_DNS_SERVER}@@\" | sudo tee /etc/resolv.conf.k3s\n\nprintf \"\\n=======> Installing K3s...\\n\"\ncurl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644 --resolv-conf /etc/resolv.conf.k3s\n\nprintf \"\\n=======> Waiting for K3s to start...\\n\"\nuntil kubectl get nodes | grep -i \"Ready\"; do sleep 2; done\n\nprintf \"\\n=======> K3s installed...\\n\"\nkubectl get nodes -o wide\nkubectl config view --raw > ~/.kube/config\nchmod 600 ~/.kube/config\n\nprintf \"\\n=======> K3s patching Traefik with hostNetwork: true ...\\n\"\nuntil kubectl -n kube-system get deployment traefik | grep -i \"1/1\"; do sleep 2; done\nkubectl -n kube-system patch deployment traefik --patch '{\"spec\":{\"template\":{\"spec\":{\"hostNetwork\":true}}}}'\n\nDOCKER_HUB_USERNAME=\"@@{DOCKER_HUB_USERNAME}@@\"\nDOCKER_HUB_PASSWORD=\"@@{DOCKER_HUB_PASSWORD}@@\"\n\nif [ -z \"$DOCKER_HUB_USERNAME\" ] || [ -z \"$DOCKER_HUB_PASSWORD\" ] ; then\n    exit 0\nelse\n    printf \"\\n=======> Setting Docker Hub credentials to avoid pull rate limits...\\n\"\ncat <<EOF | sudo tee /etc/rancher/k3s/registries.yaml\nconfigs:\n    registry-1.docker.io:\n        auth:\n            username: ${DOCKER_HUB_USERNAME}\n            password: ${DOCKER_HUB_PASSWORD}\nEOF\n\n    sudo chmod 600 /etc/rancher/k3s/registries.yaml\n    sudo systemctl restart k3s\nfi"
                                     },
                                     "child_tasks_local_reference_list": [],
                                     "variable_list": [],
@@ -338,7 +338,7 @@
                                     },
                                     "attrs": {
                                         "script_type": "sh",
-                                        "script": "#!/bin/bash\n\nset -e\n\ncurl https://baltocdn.com/helm/signing.asc | sudo apt-key add -\nsudo apt-get install apt-transport-https --yes\necho \"deb https://baltocdn.com/helm/stable/debian/ all main\" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list\nsudo apt-get update -y\nsudo apt-get install -y helm jq"
+                                        "script": "#!/bin/bash\n\nset -e\n\nprintf \"\\n=======> Installing Helm PGP key...\"\ncurl -s https://baltocdn.com/helm/signing.asc | sudo apt-key add -\nsudo apt-get -qq install -y apt-transport-https\n\nprintf \"\\n=======> Adding Helm repo...\"\nprintf \"deb https://baltocdn.com/helm/stable/debian/ all main\" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list\n\nprintf \"\\n=======> Updating packages...\"\nsudo apt-get -qq update -y\n\nprintf \"\\n=======> Installing Helm and JQ packages...\"\nsudo apt-get -qq install -y helm jq"
                                     },
                                     "child_tasks_local_reference_list": [],
                                     "variable_list": [],
@@ -355,7 +355,7 @@
                                     },
                                     "attrs": {
                                         "script_type": "sh",
-                                        "script": "#!/bin/bash\n\nset -e\n\nif [ @@{VAULT_INSTALL}@@ != True ] ; then\n    exit 0\nfi\n\necho \"Installing dependencies...\"\nhelm repo add hashicorp https://helm.releases.hashicorp.com\n\necho \"Launching Vault installation...\"\nexport VAULT_HOST=\"@@{address}@@.nip.io\"\n\n# https://www.vaultproject.io/docs/platform/k8s/helm/configuration\n\ncat <<EOF >>values_patch.yaml\nserver:\n  ingress:\n    enabled: true\n    hosts:\n    - host: ${VAULT_HOST}\n\n  standalone:\n    config: |\n      ui = true\n\n      listener \"tcp\" {\n        tls_disable = 1\n        address = \"[::]:8200\"\n        cluster_address = \"[::]:8201\"\n        x_forwarded_for_authorized_addrs = \"0.0.0.0/0\"\n      }\n\n      storage \"file\" {\n        path = \"/vault/data\"\n      }\nEOF\nhelm install vault hashicorp/vault --values values_patch.yaml\n\necho \"Waiting for Vault to install...\"\ntimeout 10m bash -c '\nsleep 60\nresponse=$(curl --write-out \"%{http_code}\" --silent --output /dev/null ${VAULT_HOST})\nwhile [ $response -ne 307 ]\ndo\n  response=$(curl --write-out \"%{http_code}\" --silent --output /dev/null ${VAULT_HOST})\n  echo Response: Installing...\n  response=$response \n  sleep 20\ndone'\n\nmkdir -p ~/.vault\nkubectl exec -ti vault-0 -- vault operator init -key-shares=1 -key-threshold=1 -format=json > ~/.vault/keys\nchmod 600 ~/.vault/keys\n\necho \"Vault successfully installed! Login URL: https://${VAULT_HOST}\"\necho \"Vault keys available in ~/.vault/keys\"\necho \"VAULT_HOST = ${VAULT_HOST}\"\n\nif [ @@{VAULT_PRINT_KEYS}@@ == True ] ; then\n    VAULT_UNSEAL_KEY=$(jq -r '.unseal_keys_b64[0]' ~/.vault/keys)\n    VAULT_ROOT_TOKEN=$(jq -r '.root_token' ~/.vault/keys)\n    echo \"VAULT_UNSEAL_KEY = ${VAULT_UNSEAL_KEY}\"\n    echo \"VAULT_ROOT_TOKEN = ${VAULT_ROOT_TOKEN}\"\nfi",
+                                        "script": "#!/bin/bash\n\nset -e\n\nif [ @@{VAULT_INSTALL}@@ != True ] ; then\n    exit 0\nfi\n\nprintf \"\\n=======> Installing Vault CLI locally...\\n\"\nif command -v apt &> /dev/null\nthen\n    sudo apt install -y gpg\n    wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg >/dev/null\n    echo \"deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main\" | sudo tee /etc/apt/sources.list.d/hashicorp.list\n    sudo apt update && sudo apt install -y vault\nfi\n\n\nprintf \"\\n=======> Adding Hashicorp Helm repository...\\n\"\nhelm repo add hashicorp https://helm.releases.hashicorp.com\n\nprintf \"\\n=======> Preparing Vault installation...\\n\"\nexport VAULT_HOST=\"@@{address}@@.nip.io\"\n\n# https://www.vaultproject.io/docs/platform/k8s/helm/configuration\n\ncat <<EOF >>values_patch.yaml\nserver:\n  ingress:\n    enabled: true\n    hosts:\n    - host: ${VAULT_HOST}\n    - host: localhost\n\n  standalone:\n    config: |\n      ui = true\n\n      listener \"tcp\" {\n        tls_disable = 1\n        address = \"[::]:8200\"\n        cluster_address = \"[::]:8201\"\n        x_forwarded_for_authorized_addrs = \"0.0.0.0/0\"\n      }\n\n      storage \"file\" {\n        path = \"/vault/data\"\n      }\nEOF\n\nprintf \"\\n=======> Launching Vault installation...\\n\"\nhelm install vault hashicorp/vault --values values_patch.yaml\n\nprintf \"\\n=======> Waiting for Vault to install...\\n\"\ntimeout 10m bash -c '\nsleep 60\nresponse=$(curl --write-out \"%{http_code}\" --silent --output /dev/null ${VAULT_HOST})\nwhile [ $response -ne 307 ]\ndo\n  response=$(curl --write-out \"%{http_code}\" --silent --output /dev/null ${VAULT_HOST})\n  echo Response: Installing...\n  response=$response \n  sleep 20\ndone'\nprintf \"\\n=======> Vault successfully installed!\"\n\nkubectl exec -ti vault-0 -- vault operator init -key-shares=1 -key-threshold=1 -format=json > ~/.keys\nchmod 600 ~/.keys\n\necho \"alias vault='env VAULT_ADDR=http://localhost/ vault'\" >> ~/.bashrc\n\nprintf \"\\n=======> Connection details...\\n\"\necho \"Login URL: https://${VAULT_HOST}\"\necho \"Vault keys available via SSH in: ~/.keys\"\n\nif [ @@{VAULT_PRINT_KEYS}@@ == True ] ; then\n    export VAULT_UNSEAL=$(jq -r '.unseal_keys_b64[0]' ~/.keys)\n    export VAULT_TOKEN=$(jq -r '.root_token' ~/.keys)\n    echo \"Vault unseal key: ${VAULT_UNSEAL}\"\n    echo \"Vault root token: ${VAULT_TOKEN}\"\nfi\n\nprintf \"\\n=======> Setting Service variables\\n\"\nif [ @@{VAULT_PRINT_KEYS}@@ == True ] ; then\n    echo \"VAULT_UNSEAL = ${VAULT_UNSEAL}\"\n    echo \"VAULT_TOKEN = ${VAULT_TOKEN}\"\nfi\n\necho \"VAULT_HOST = ${VAULT_HOST}\"\n",
                                         "eval_variables": [
                                             "VAULT_HOST",
                                             "VAULT_UNSEAL_KEY",
@@ -556,6 +556,35 @@
                     ],
                     "variable_list": [
                         {
+                            "name": "DOCKER_HUB_PASSWORD",
+                            "description": "",
+                            "type": "SECRET",
+                            "label": "",
+                            "attrs": {},
+                            "val_type": "STRING",
+                            "data_type": "BASE",
+                            "editables": {
+                                "value": true
+                            },
+                            "is_hidden": false,
+                            "is_mandatory": false
+                        },
+                        {
+                            "name": "DOCKER_HUB_USERNAME",
+                            "description": "",
+                            "type": "LOCAL",
+                            "label": "",
+                            "attrs": {},
+                            "val_type": "STRING",
+                            "value": "youruser",
+                            "data_type": "BASE",
+                            "editables": {
+                                "value": true
+                            },
+                            "is_hidden": false,
+                            "is_mandatory": false
+                        },
+                        {
                             "name": "K3S_INSTALL",
                             "description": "Enabling K3s lets you easily install containerized applications.",
                             "type": "LOCAL",
@@ -576,15 +605,8 @@
                             "val_type": "STRING",
                             "value": "True",
                             "data_type": "BASE",
-                            "options": {
-                                "type": "PREDEFINED",
-                                "choices": [
-                                    "True",
-                                    "False"
-                                ]
-                            },
-                            "is_hidden": false,
-                            "is_mandatory": true
+                            "is_hidden": true,
+                            "is_mandatory": false
                         },
                         {
                             "name": "VAULT_PRINT_KEYS",
@@ -595,6 +617,9 @@
                             "val_type": "STRING",
                             "value": "False",
                             "data_type": "BASE",
+                            "editables": {
+                                "value": true
+                            },
                             "options": {
                                 "type": "PREDEFINED",
                                 "choices": [
@@ -604,35 +629,6 @@
                             },
                             "is_hidden": false,
                             "is_mandatory": true
-                        },
-                        {
-                            "name": "DOCKER_HUB_USERNAME",
-                            "description": "",
-                            "type": "LOCAL",
-                            "label": "",
-                            "attrs": {},
-                            "val_type": "STRING",
-                            "value": "youruser",
-                            "data_type": "BASE",
-                            "editables": {
-                                "value": true
-                            },
-                            "is_hidden": false,
-                            "is_mandatory": false
-                        },
-                        {
-                            "name": "DOCKER_HUB_PASSWORD",
-                            "description": "",
-                            "type": "SECRET",
-                            "label": "",
-                            "attrs": {},
-                            "val_type": "STRING",
-                            "data_type": "BASE",
-                            "editables": {
-                                "value": true
-                            },
-                            "is_hidden": false,
-                            "is_mandatory": false
                         },
                         {
                             "name": "OS_DISK_SIZE",
@@ -658,6 +654,18 @@
                             "attrs": {},
                             "val_type": "STRING",
                             "value": "127.0.0.1",
+                            "data_type": "BASE",
+                            "is_hidden": false,
+                            "is_mandatory": false
+                        },
+                        {
+                            "name": "K3S_DNS_SERVER",
+                            "description": "",
+                            "type": "LOCAL",
+                            "label": "",
+                            "attrs": {},
+                            "val_type": "STRING",
+                            "value": "8.8.8.8",
                             "data_type": "BASE",
                             "is_hidden": false,
                             "is_mandatory": false
