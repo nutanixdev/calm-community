@@ -10,7 +10,12 @@ printf "\n=======> Creating resolv.conf.k3s...\n"
 echo "nameserver @@{K3S_DNS_SERVER}@@" | sudo tee /etc/resolv.conf.k3s
 
 printf "\n=======> Installing K3s...\n"
-curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644 --resolv-conf /etc/resolv.conf.k3s
+curl -sfL https://get.k3s.io | sh -s - \
+    --write-kubeconfig-mode 644 \
+    --resolv-conf /etc/resolv.conf.k3s \
+    --cluster-cidr @@{K3S_CLUSTER_CIDR}@@ \
+    --service-cidr @@{K3S_SERVICE_CIDR}@@ \
+    --cluster-dns @@{K3S_CLUSTER_DNS}@@
 
 printf "\n=======> Waiting for K3s to start...\n"
 until kubectl get nodes | grep -i "Ready"; do sleep 2; done
