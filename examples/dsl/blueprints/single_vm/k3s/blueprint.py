@@ -1,16 +1,10 @@
-import yaml
 import requests
-
-from calm.dsl.builtins import ref, basic_cred
-from calm.dsl.builtins import read_local_file, read_file, readiness_probe
-from calm.dsl.builtins import CalmTask
-from calm.dsl.builtins import CalmVariable
-from calm.dsl.builtins import action
-
-from calm.dsl.builtins import AhvVmDisk, AhvVmNic, AhvVmGC
-from calm.dsl.builtins import AhvVmResources, ahv_vm
-from calm.dsl.builtins import VmProfile, VmBlueprint
-from calm.dsl.builtins import Metadata, Ref
+import yaml
+from calm.dsl.builtins import (AhvVmDisk, AhvVmGC, AhvVmNic, AhvVmResources,
+                               CalmTask, CalmVariable, Metadata, Ref,
+                               VmBlueprint, VmProfile, action, ahv_vm,
+                               basic_cred, read_file, read_local_file,
+                               readiness_probe, ref)
 
 # Configuration
 SCRIPTS_URL = "https://raw.githubusercontent.com/nutanixdev/calm-community/main/examples/tasks"
@@ -32,7 +26,9 @@ OS_CRED = basic_cred(OS_USER, OS_KEY, name="OS_CRED", type="KEY", default=True)
 
 PC_USER = "admin"
 PC_PASSWORD = read_local_file(".tests/passwords/prism_central")
-CRED_PC = basic_cred(PC_USER, PC_PASSWORD, name="CRED_PC", type="PASSWORD", default=False)
+CRED_PC = basic_cred(PC_USER, PC_PASSWORD, name="CRED_PC",
+                     type="PASSWORD", default=False)
+
 
 class K3sAhvResources(AhvVmResources):
     """K3s configuration"""
@@ -75,14 +71,19 @@ class Default(VmProfile):
         is_mandatory=True,
         description="Enabling K3s lets you easily install containerized applications.")
 
-
     DOCKER_HUB_USERNAME = CalmVariable.Simple.string("youruser", runtime=True)
-    DOCKER_HUB_PASSWORD = CalmVariable.Simple.Secret(read_local_file(".tests/passwords/docker"), runtime=True)
+    DOCKER_HUB_PASSWORD = CalmVariable.Simple.Secret(
+        read_local_file(".tests/passwords/docker"), runtime=True)
     OS_DISK_SIZE = CalmVariable.Simple.int("20")
     NTNX_PC_IP = CalmVariable.Simple.string("127.0.0.1")
+    K3S_DNS_SERVER = CalmVariable.Simple.string("8.8.8.8")
+    K3S_CLUSTER_CIDR = CalmVariable.Simple.string("172.16.0.0/16")
+    K3S_SERVICE_CIDR = CalmVariable.Simple.string("172.17.0.0/16")
+    K3S_CLUSTER_DNS = CalmVariable.Simple.string("172.17.0.10")
 
     # VM Spec for Substrate
-    provider_spec = ahv_vm(resources=K3sAhvResources, name="@@{calm_application_name}@@")
+    provider_spec = ahv_vm(resources=K3sAhvResources,
+                           name="@@{calm_application_name}@@")
 
     # Readiness probe for substrate (disabled is set to false, for enabling check login)
     readiness_probe = readiness_probe(credential=ref(OS_CRED), disabled=False)
@@ -92,11 +93,18 @@ class Default(VmProfile):
     def __install__():
         CalmTask.Exec.escript(
             name="EXPAND_DISK",
-            script=requests.get(SCRIPTS_URL + "/nutanix/prism_central/vm_disk_resize.py").text
+            script=requests.get(
+                SCRIPTS_URL + "/nutanix/prism_central/vm_disk_resize.py").text
         )
         CalmTask.Exec.ssh(
             name="K3S_INSTALL",
-            script=requests.get(SCRIPTS_URL + "/linux/k3s/ubuntu_k3s_install.sh").text
+            script=requests.get(
+                SCRIPTS_URL + "/linux/k3s/ubuntu_k3s_install.sh").text
+        )
+        CalmTask.Exec.ssh(
+            name="HELM_INSTALL",
+            script=requests.get(
+                SCRIPTS_URL + "/linux/helm/ubuntu_helm_install.sh").text
         )
 
 
@@ -104,7 +112,7 @@ class SingleK3sNode(VmBlueprint):
     """K3s single node"""
 
     # Blueprint credentials
-    credentials = [OS_CRED,CRED_PC]
+    credentials = [OS_CRED, CRED_PC]
 
     # Blueprint profiles
     profiles = [Default]
