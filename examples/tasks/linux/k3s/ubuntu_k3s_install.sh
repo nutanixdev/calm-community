@@ -10,7 +10,7 @@ printf "\n=======> Creating resolv.conf.k3s...\n"
 echo "nameserver @@{K3S_DNS_SERVER}@@" | sudo tee /etc/resolv.conf.k3s
 
 printf "\n=======> Installing K3s...\n"
-curl -sfL https://get.k3s.io | sh -s - \
+curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=@@{K3S_VERSION}@@ sh -s - \
     --write-kubeconfig-mode 644 \
     --resolv-conf /etc/resolv.conf.k3s \
     --cluster-cidr @@{K3S_CLUSTER_CIDR}@@ \

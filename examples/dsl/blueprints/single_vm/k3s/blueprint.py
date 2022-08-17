@@ -80,6 +80,7 @@ class Default(VmProfile):
     K3S_CLUSTER_CIDR = CalmVariable.Simple.string("172.16.0.0/16")
     K3S_SERVICE_CIDR = CalmVariable.Simple.string("172.17.0.0/16")
     K3S_CLUSTER_DNS = CalmVariable.Simple.string("172.17.0.10")
+    K3S_VERSION = CalmVariable.Simple.string("v1.23.9+k3s1", runtime=True)
 
     # VM Spec for Substrate
     provider_spec = ahv_vm(resources=K3sAhvResources,
