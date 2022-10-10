@@ -2,14 +2,6 @@
 
 set -e
 
-echo "Uninstalling any old version..."
-sudo apt-get remove -y \
-    docker \
-    docker-engine \
-    docker.io \
-    containerd \
-    runc  
-
 echo "Installing dependencies..."
 sudo apt-get update
 sudo apt-get install -y \
