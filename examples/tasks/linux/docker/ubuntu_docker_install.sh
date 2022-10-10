@@ -19,14 +19,12 @@ sudo apt-get install -y \
     lsb-release
 
 echo "Setting up Docker repository..."
-sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable"
 
 echo "Installing Docker Engine..."
-sudo apt-get update -y
+sudo apt-get update
 sudo apt-get install -y \
     docker-ce \
     docker-ce-cli \
